@@ -28,6 +28,10 @@ class Users extends Sequelize.Model {
         allowNull: false,
         defaultValue: Sequelize.NOW,
       },
+      password: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      },
     }, {
       sequelize,
       timestamps: false,

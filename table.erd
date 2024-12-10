@@ -49,8 +49,9 @@
         "columnIds": [
           "AIImGvHM-uKH4F2XnA4YH",
           "dnmcgY6Xfh3ia3Gl9lBXZ",
-          "HuiKN42XDGazKQsnZGhm9",
           "KeqoW2LmTplupDjgh9dm1",
+          "9AMuvCOAl6LtVlTrWy4p0",
+          "HuiKN42XDGazKQsnZGhm9",
           "9E9WMXD3UjSxHwOi44AVF",
           "vamWwYwQmNdhobHFLFdoo",
           "0IO8wT6G3V30ts4HudZg1"
@@ -58,8 +59,9 @@
         "seqColumnIds": [
           "AIImGvHM-uKH4F2XnA4YH",
           "dnmcgY6Xfh3ia3Gl9lBXZ",
-          "HuiKN42XDGazKQsnZGhm9",
           "KeqoW2LmTplupDjgh9dm1",
+          "9AMuvCOAl6LtVlTrWy4p0",
+          "HuiKN42XDGazKQsnZGhm9",
           "9E9WMXD3UjSxHwOi44AVF",
           "vamWwYwQmNdhobHFLFdoo",
           "Jtyd83m40DGnUxihrc4F4",
@@ -74,7 +76,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1733620505668,
+          "updateAt": 1733747606584,
           "createAt": 1733619361891
         }
       },
@@ -391,6 +393,26 @@
           "updateAt": 1733620504042,
           "createAt": 1733620499386
         }
+      },
+      "9AMuvCOAl6LtVlTrWy4p0": {
+        "id": "9AMuvCOAl6LtVlTrWy4p0",
+        "tableId": "Z4mT9xWDXOXnVqiq3No4g",
+        "name": "password",
+        "comment": "",
+        "dataType": "",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1733747610185,
+          "createAt": 1733747593522
+        }
       }
     },
     "relationshipEntities": {
@@ -405,7 +427,7 @@
             "AIImGvHM-uKH4F2XnA4YH"
           ],
           "x": 475,
-          "y": 261,
+          "y": 273,
           "direction": 2
         },
         "end": {
@@ -570,6 +592,15 @@
       {
         "name": 1733620502493,
         "options(notNull)": 1733620504041
+      }
+    ],
+    "9AMuvCOAl6LtVlTrWy4p0": [
+      "tableColumnEntities",
+      1733747593516,
+      -1,
+      {
+        "name": 1733747598796,
+        "options(notNull)": 1733747610184
       }
     ]
   }

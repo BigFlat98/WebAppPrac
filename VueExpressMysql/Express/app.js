@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const db = require('./models/model_index.js');
@@ -14,13 +16,14 @@ app.set('port',process.env.PORT);
 
 //데이터베이스 연결
 db.sequelize.sync({force:false})
-    .then(()=>{
-        console.log('데이터베이스 연결 성공');
-    })
-    .catch((error)=>{
-        console.log('데이터베이스 연결 실패');
-        console.error(error);
-    })
+.then(()=>{
+    console.log('데이터베이스 연결 성공');
+})
+.catch((error)=>{
+    console.log('데이터베이스 연결 실패');
+    console.error(error);
+})
+
 //미들웨어
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
