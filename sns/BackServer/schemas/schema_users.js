@@ -10,7 +10,7 @@ const usersSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
-        maxlength:100,
+        maxlength:160,
     },
     email:{
         type:String,
@@ -38,7 +38,7 @@ const usersSchema = new mongoose.Schema({
     },
 },{
     timestamps:false,
-    collection:'users',
+    
 });
 
 //schema 적용

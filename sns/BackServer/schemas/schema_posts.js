@@ -16,7 +16,7 @@ const postsSchema = new mongoose.Schema({
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'users',
+        ref:'Users',
         required:true,
     },
     hashtags:[{ //N:M 관계 생성시, 그냥 1:N 처럼 만들고 그걸 배열에 넣으면 됨.

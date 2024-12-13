@@ -6,12 +6,14 @@ const morgan = require('morgan');
 const cors = require('cors');
 const pageRouter = require('./routers/pageRouter.js');
 const authRouter = require('./routers/authRouter.js');
+const postRouter = require('./routers/postRouter.js');
 const mongoose = require('mongoose');
 const Users = require('./schemas/schema_users.js');
 const Posts = require('./schemas/schema_posts.js');
 const Hashtags = require('./schemas/schema_hashtags.js');
 const expressSession = require('express-session');//passport 사용 시 먼저 써줘야 함.
 const passport = require('passport'); //passport 에서 세션이 있어야 하기 때문에.
+const LocalStrategy = require('passport-local');
 
 
 
@@ -65,12 +67,28 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());//passport 초기화(사용 시작을 위한 작업.)
 app.use(passport.session());//passport 세션 사용 시 필요.(로그인 인증 전략중 session 방식 사용. jwt나 다른 인증 전략들이 있음.)
+//serializeUser, deserializeUser 메서드 오버라이딩.
+passport.serializeUser((user,done)=>{ //인증 정보를 사용하고 받아온 데이터를 세션에 저장할 때 저장하는 정보를 serialize해야함. 들어온 세션 데이터를 DB의 데이터 id로 변환.
+    console.log('serializeUser',user);
+    done(null,user._id);
+});
+passport.deserializeUser(async (id,done)=>{//세션에 저장된 데이터를 사용할 때 다시 원래 데이터로 복원해야 하는데, 그 때 사용하는 메서드.(필수) 세션 쿠키에 저장된 id를 사용해서 원래 데이터를 찾아서 복원.
+    try{ 
+        const user = await Users.findById({_id:id});
+        done(null,user);
+    }
+    catch(err){
+        console.error(err);
+        done(err);
+    }
+});//세션 쿠
 
 
 
 //router
 app.use('/',pageRouter);
 app.use('/auth',authRouter);
+app.use('/post',postRouter);
 
 
 //404 error handler
