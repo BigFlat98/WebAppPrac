@@ -220,8 +220,11 @@ export default{
         async addUsers(){
             try{
                 const res = await axios.post('http://localhost:3003/user',this.addUser);
-                this.users =res.data;
                 console.log(res);
+                if(res.data.message){
+                    alert(res.data.message);
+                }
+                this.getUsers();
                 this.addUser = {
                     name:'',
                     gender:true,
