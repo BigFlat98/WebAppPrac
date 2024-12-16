@@ -12,7 +12,11 @@ exports.signup = async (req,res,next)=>{
     try{
         const existID = await Users.findOne({$or:[{snsId:snsId},{email:email},{phoneNumber:phoneNumber}]});
         if(existID){
-            return res.redirect('/signup?error=exist');//특정 화면으로 redirect
+            return res.status(409).json({//status로 오류 상태를 보내야 받는 쪽의 try catch문에서 오류쪽으로 넘길 수 있음.
+                success: false,
+                error: 'exist',
+                message: '이미 존재하는 사용자입니다'
+            });
         }
         
         const salt = process.env.SALT;
@@ -73,19 +77,26 @@ passport.use(new LocalStrategy({ //passport-local 객체 생성, 이렇게 만�
 
 exports.login = async (req,res,next)=>{ //여기서 받은 데이터를 
     passport.authenticate('local',(authError,user,info)=>{//여기서 우리가 만든 local이라는 로그인 인증 방식으로 가서 확인 후에 done에 있는 파라미터가 여기에(authError,user,info) 똑같이 들어옴.
-                                                          //passport 를 통한 로그인. 첫번째 인자는 전략(우리가 만들어줘야 함. 예를 들어 암호화 등을 어떻게 처리했는지 적용해 줘야함.), 두번째 인자는 콜백함수()
+                                                          //passport 를 통한 로그인. 첫번��� 인자는 전략(우리가 만들어줘야 함. 예를 들어 암호화 등을 어떻게 처리했는지 적용해 줘야함.), 두번째 인자는 콜백함수()
         if(authError){//에러 발생 시 처리문
             console.error(authError);
             return next(authError);
         }
         if(!user){//login에 필요한 유저 정보가 없는 경우 처리문
-            return res.redirect(`/?error11=${info.message}`);
+            return res.status(401).json({
+                success:false,
+                error:'not found',
+                message:'가입되지 않은 회원입니다.'
+            });
         }
         return req.login(user,(loginError)=>{//로그인이 돼서 로그인 정보가 있으면 로그인 정보를 세션에 저장해줌.
             if(loginError){
                 return next(loginError);
             }
-            return res.redirect('/');
+            return res.status(200).json({
+                success:true,
+                message:'로그인 성공'
+            });
         });
     })(req,res,next);
 }

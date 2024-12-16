@@ -81,6 +81,7 @@ passport.deserializeUser(async (id,done)=>{//세션에 저장된 데이터를 �
         console.error(err);
         done(err);
     }
+    
 });//세션 쿠
 
 
@@ -89,6 +90,7 @@ passport.deserializeUser(async (id,done)=>{//세션에 저장된 데이터를 �
 app.use('/',pageRouter);
 app.use('/auth',authRouter);
 app.use('/post',postRouter);
+
 
 
 //404 error handler
