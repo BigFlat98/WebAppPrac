@@ -26,7 +26,8 @@
                                                 <input type="password" name="logpass" v-model="login.password" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
-                                            <a href="#" class="btn mt-4">submit</a>
+                                            <button @click="" class="btn mt-4">submit</button><br/>
+                                            <button @click="googleLogin" class="btn mt-4">google login</button>
                                             <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
                                             </div>
                                         </div>
@@ -63,6 +64,7 @@
 
 
 <script>
+import axios from 'axios';
 export default{ 
     name:'',
     
@@ -128,9 +130,27 @@ export default{
     },
     setup(){},
     created(){},
-    mounted(){},
+    mounted(){
+      this.getUserInfo();
+    },
     unmounted(){},
-    methods:{},
+    methods:{
+      async googleLogin(){
+        //const response = await axios.get('http://localhost:3003/login/googleLogin',{withCredentials:true});
+        window.location.href = 'http://localhost:3003/login/googleLogin';
+      },
+      async getUserInfo(){
+        
+        const response = await axios.get('http://localhost:3003/login/getUserInfo',{withCredentials:true});
+        if(response.data.isLoggedIn){
+          console.log(response.data.user);
+        }
+        else{
+          console.log('로그인 필요');
+        }
+      }
+
+    },
     watch:{}
 }
 </script>
@@ -424,4 +444,5 @@ h6 span{
   width: auto;
   display: block;
 }
+
 </style>
