@@ -26,9 +26,11 @@
                                                 <input type="password" name="logpass" v-model="login.password" class="form-style" placeholder="Your Password" id="logpass" autocomplete="off">
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
-                                            <button @click="" class="btn mt-4">submit</button><br/>
-                                            <button @click="googleLogin" class="btn mt-4">google login</button>
-                                            <button @click="facebookLogin" class="btn mt-4">facebook login</button>
+                                            <button v-show="!isLoggedIn" @click="" class="btn mt-4">submit</button><br/>
+                                            <button v-show="!isLoggedIn" @click="googleLogin" class="btn mt-4 api-login-btn">google login</button>
+                                            <button v-show="!isLoggedIn" @click="facebookLogin" class="btn mt-4 api-login-btn">facebook login</button>
+                                            <button v-show="!isLoggedIn" @click="kakaoLogin" class="btn mt-4 api-login-btn">kakao login</button>
+                                            <button v-show="isLoggedIn" @click="logout" class="btn mt-4">logout</button>
                                             <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
                                             </div>
                                         </div>
@@ -127,6 +129,7 @@ export default{
                 gender:true,
                 password:''
             },
+            isLoggedIn:false,
         };
     },
     setup(){},
@@ -148,19 +151,28 @@ export default{
         // 결과적으로 인증 흐름이 제대로 동작하지 않습니다
         window.location.href = 'http://localhost:3003/login/googleLogin';
       },
+      facebookLogin(){
+        window.location.href = 'http://localhost:3003/login/facebookLogin';
+      },
+      kakaoLogin(){
+        window.location.href = 'http://localhost:3003/login/kakaoLogin';
+      },
+      async logout(){
+        await axios.get('http://localhost:3003/login/signout',{withCredentials:true});
+        this.isLoggedIn = false;
+      },
       async getUserInfo(){
-        
         const response = await axios.get('http://localhost:3003/login/getUserInfo',{withCredentials:true});
         if(response.data.isLoggedIn){
           console.log(response.data.user);
+          this.isLoggedIn = true;
         }
         else{
           console.log('로그인 필요');
+          this.isLoggedIn = false;
         }
       },
-      facebookLogin(){
-        window.location.href = 'http://localhost:3003/login/facebookLogin';
-      }
+      
 
     },
     watch:{}
@@ -457,4 +469,8 @@ h6 span{
   display: block;
 }
 
+.api-login-btn{
+  width: 100px;
+  margin: 0 10px;
+}
 </style>
