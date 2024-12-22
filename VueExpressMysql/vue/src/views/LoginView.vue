@@ -28,6 +28,7 @@
                                             </div>
                                             <button @click="" class="btn mt-4">submit</button><br/>
                                             <button @click="googleLogin" class="btn mt-4">google login</button>
+                                            <button @click="facebookLogin" class="btn mt-4">facebook login</button>
                                             <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
                                             </div>
                                         </div>
@@ -135,8 +136,16 @@ export default{
     },
     unmounted(){},
     methods:{
-      async googleLogin(){
+      googleLogin(){
         //const response = await axios.get('http://localhost:3003/login/googleLogin',{withCredentials:true});
+        //여기서 axios요청을 보내면 반드시 응답을 받아야 함. 
+        //하지만 외부 로그인 api 사용시 로그인 페이지로 이동하고 응답을 백 서버로 보냄. 때문에 axios요청을 여기서 백에 보내게 되면 외부 api측에서 cors에러가 발생함
+        // ex) axios요청을 하면 front -> back -> 외부 api -> back -> front 이런 흐름에서 외부 api측에서 응답을 받아야 하는데 이때 외부 api측에서 응답을 받지 못하고 바로 로그인 페이지로 이동하게 되어 외부 api측에서 cors에러가 발생함
+        // 그래서 프론트 측에서 응받을 받을 필요 없이 그냥 다른 url을 호출하는 redirect 방식을 사용해야 함.
+
+        // google 인증 페이지로 이동해야 하는데,
+        // axios는 현재 페이지에 머물러 있으려고 합니다
+        // 결과적으로 인증 흐름이 제대로 동작하지 않습니다
         window.location.href = 'http://localhost:3003/login/googleLogin';
       },
       async getUserInfo(){
@@ -148,6 +157,9 @@ export default{
         else{
           console.log('로그인 필요');
         }
+      },
+      facebookLogin(){
+        window.location.href = 'http://localhost:3003/login/facebookLogin';
       }
 
     },

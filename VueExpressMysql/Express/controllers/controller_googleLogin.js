@@ -27,17 +27,19 @@ async (accessToken, refreshToken, profile, done)=>{
 }));
 
 exports.googleLogin = (req,res) =>{
-   passport.authenticate('google',{
+   passport.authenticate('google',{ //authenticate는 호출되면 첫번째 파라미터를 통해 적용할 인증 방식을 찾아서 실행하고, 두번째 파라미터를 통해 작동할 기능을 정함.
+                                    //이 정해진 기능을 수행하는 middleware를 return해주는 메서드임.
     scope:['profile','email'],
-   })(req,res); //authenticate 미들웨어를 바로 실행
+   })(req,res); //그렇게 return된 미들웨어를 바로 실행
 };
-
 exports.googleCallback = (req,res) =>{
-    passport.authenticate('google',{
+    passport.authenticate('google',{ //여기서 로그인에 성공했을 때 로그인 정보를 DB에 저장하는 기능을 추가하면 될 것 같음.
+                                     //이럴경우 password는 필요가 없기 때문에 db에서 null 허용이 필수임.
         failureRedirect:'http://localhost:8083/login?success=false',
         successRedirect:'http://localhost:8083/login?success=true',
     })(req,res);
 };
+//authenticate 메소드는 2번 사용됨. 첫번째는 구글 로그인 페이지로 이동하는 메소드, 두번째는 로그인 성공 시 로그인 정보를 DB에 저장하는 메소드임.
 
 passport.serializeUser((user,done)=>{
     done(null,user);
@@ -52,12 +54,7 @@ exports.getUserInfo = (req, res) => {
     if (req.isAuthenticated()&&req.user) {//여기 try catch로 에러처리 해주는게 좋음.
         res.json({
             isLoggedIn: true,
-            user: {
-                googleId: req.user.googleId,
-                email: req.user.email,
-                name: req.user.name,
-                profileImage: req.user.profileImage
-            }
+            user: req.user
         });
     } else {
         res.json({
